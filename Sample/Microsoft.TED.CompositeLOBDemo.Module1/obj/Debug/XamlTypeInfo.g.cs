@@ -524,5 +524,3 @@ namespace Microsoft.TED.CompositeLOBDemo.Module1.Microsoft_TED_CompositeLOBDemo_
 }
 
 
-
-

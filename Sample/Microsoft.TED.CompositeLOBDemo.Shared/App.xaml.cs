@@ -66,6 +66,7 @@ namespace Microsoft.TED.CompositeLOBDemo
         private void InitializeModules()
         {
             this.ModuleManager = new ModuleManager();
+          
             this.ModuleManager.AddModule(name: "Module1",
                 entryPoint: "Microsoft.TED.CompositeLOBDemo.Module1.Module,Microsoft.TED.CompositeLOBDemo.Module1",
                 dependsOn: "SharedModule");
@@ -74,8 +75,18 @@ namespace Microsoft.TED.CompositeLOBDemo
                 entryPoint: "Microsoft.TED.CompositeLOBDemo.Module2.Module,Microsoft.TED.CompositeLOBDemo.Module2",
                 dependsOn: "SharedModule");
 
+            this.ModuleManager.AddModule(name: "FarmersUIModule",
+                entryPoint: "Microsoft.TED.CompositeLOBDemo.Module3.Module, Microsoft.TED.CompositeLOBDemo.Module3",
+                dependsOn: "FarmersRepository");
+
             this.ModuleManager.AddModule(name: "SharedModule",
                 entryPoint: "Microsoft.TED.CompositeLOBDemo.SharedModule.Module,Microsoft.TED.CompositeLOBDemo.SharedModule");
+
+            //this.ModuleManager.AddModule(name: "FarmersRepository",
+            //    entryPoint: "Microsoft.TED.CompositeLOBDemo.RepositoryMock.Module, Microsoft.TED.CompositeLOBDemo.RepositoryMock");
+
+            this.ModuleManager.AddModule(name: "FarmersRepository",
+                entryPoint: "Microsoft.TED.CompositeLOBDemo.RepositorySQLite.Module, Microsoft.TED.CompositeLOBDemo.RepositorySQLite");
         }
 
         protected override void Configure()

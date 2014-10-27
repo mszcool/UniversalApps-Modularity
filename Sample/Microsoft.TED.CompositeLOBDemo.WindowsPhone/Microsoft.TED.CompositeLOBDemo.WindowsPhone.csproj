@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\SQLitePCL.3.8.5.1\build\wpa81\SQLitePCL.props" Condition="Exists('..\..\packages\SQLitePCL.3.8.5.1\build\wpa81\SQLitePCL.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -15,7 +16,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{76F1466A-8B6D-4E39-A767-685A06062A39};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
-    <NuGetPackageImportStamp>19f60243</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>62be1869</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -96,6 +97,15 @@
     <Content Include="Assets\StoreLogo.scale-240.png" />
     <Content Include="Assets\WideLogo.scale-240.png" />
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Images\module3_animal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\module3_grain.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\module3_wine.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
@@ -120,6 +130,10 @@
       <HintPath>..\..\packages\PropertyChanged.Fody.1.48.5\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SQLitePCL, Version=3.8.5.0, Culture=neutral, PublicKeyToken=bddade01e9c850c5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\SQLitePCL.3.8.5.1\lib\wpa81\SQLitePCL.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Microsoft.TED.CompositeLOBDemo.Windows\My.licenseheader">
@@ -128,6 +142,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.TED.CompositeLOBDemo.RepositorySQLite\Microsoft.TED.CompositeLOBDemo.RepositorySQLite.csproj">
+      <Project>{a1769cd6-060b-469b-b970-68e7e7e4d841}</Project>
+      <Name>Microsoft.TED.CompositeLOBDemo.RepositorySQLite</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.TED.WinRT.ModularHub\Microsoft.TED.WinRT.ModularHub.csproj">
       <Project>{f5b293e7-520a-4863-ad0f-0c7eb6b40317}</Project>
       <Name>Microsoft.TED.WinRT.ModularHub</Name>
@@ -144,6 +162,30 @@
       <Project>{66818d44-3645-4163-b4a6-ba9b7f82f0eb}</Project>
       <Name>Microsoft.TED.CompositeLOBDemo.Module2</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.TED.CompositeLOBDemo.Module3\Microsoft.TED.CompositeLOBDemo.Module3.csproj">
+      <Project>{bf7e4f71-65c6-4dc7-aa61-41aba818e020}</Project>
+      <Name>Microsoft.TED.CompositeLOBDemo.Module3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.TED.CompositeLOBDemo.Repository.Interfaces\Microsoft.TED.CompositeLOBDemo.Repository.Interfaces.csproj">
+      <Project>{5408701e-e7ee-4c99-9d0a-7c8135d0c2e3}</Project>
+      <Name>Microsoft.TED.CompositeLOBDemo.Repository.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.TED.CompositeLOBDemo.RepositoryMock\Microsoft.TED.CompositeLOBDemo.RepositoryMock.csproj">
+      <Project>{82587820-2191-45b7-b8ff-6eefafedd830}</Project>
+      <Name>Microsoft.TED.CompositeLOBDemo.RepositoryMock</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.TED.CompositeLOBDemo.SharedModule\Microsoft.TED.CompositeLOBDemo.SharedModule.csproj">
+      <Project>{150a23ba-1593-42fe-a3a1-356c51c4580e}</Project>
+      <Name>Microsoft.TED.CompositeLOBDemo.SharedModule</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs, version=12.0">
+      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows Phone</Name>
+    </SDKReference>
+    <SDKReference Include="SQLite.WP81, Version=3.8.7">
+      <Name>SQLite for Windows Phone 8.1 %28SQLite.WP81, Version=3.8.7%29</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
@@ -159,8 +201,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Fody.1.26.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.1.26.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SQLitePCL.3.8.5.1\build\wpa81\SQLitePCL.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SQLitePCL.3.8.5.1\build\wpa81\SQLitePCL.props'))" />
+    <Error Condition="!Exists('..\..\packages\SQLitePCL.3.8.5.1\build\wpa81\SQLitePCL.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SQLitePCL.3.8.5.1\build\wpa81\SQLitePCL.targets'))" />
   </Target>
-
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -168,4 +211,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <SDKReferenceDirectoryRoot>$(SolutionDir)Binaries;$(SDKReferenceDirectoryRoot)</SDKReferenceDirectoryRoot>
+  </PropertyGroup>
+  <Import Project="..\..\packages\SQLitePCL.3.8.5.1\build\wpa81\SQLitePCL.targets" Condition="Exists('..\..\packages\SQLitePCL.3.8.5.1\build\wpa81\SQLitePCL.targets')" />
 </Project>
