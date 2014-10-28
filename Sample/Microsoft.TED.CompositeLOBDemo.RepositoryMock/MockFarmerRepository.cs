@@ -14,6 +14,30 @@ namespace Microsoft.TED.CompositeLOBDemo.RepositoryMock
 
         public MockFarmerRepository()
         {
+
+        }
+
+        public Task<IList<Repository.Interfaces.Models.FarmerModel>> GetFarmers()
+        {
+            return Task.FromResult<IList<FarmerModel>>(_mockFarmers);
+        }
+
+        public Task UpdateFarmer(Repository.Interfaces.Models.FarmerModel farmerToUpdate)
+        {
+            var existingFarmer = (from f in _mockFarmers
+                                  where f.Id == farmerToUpdate.Id
+                                  select f).FirstOrDefault();
+            if (existingFarmer != null)
+            {
+                _mockFarmers.Remove(existingFarmer);
+            }
+            _mockFarmers.Add(farmerToUpdate);
+
+            return Task.FromResult<object>(null);
+        }
+
+        public Task SyncWithBackend()
+        {
             _mockFarmers = new List<FarmerModel>();
             for (int i = 0; i < 10; i++)
             {
@@ -32,23 +56,8 @@ namespace Microsoft.TED.CompositeLOBDemo.RepositoryMock
                         }
                     );
             }
-        }
 
-        public IList<Repository.Interfaces.Models.FarmerModel> GetFarmers()
-        {
-            return _mockFarmers;
-        }
-
-        public void UpdateFarmer(Repository.Interfaces.Models.FarmerModel farmerToUpdate)
-        {
-            var existingFarmer = (from f in _mockFarmers
-                                  where f.Id == farmerToUpdate.Id
-                                  select f).FirstOrDefault();
-            if (existingFarmer != null)
-            {
-                _mockFarmers.Remove(existingFarmer);
-            }
-            _mockFarmers.Add(farmerToUpdate);
+            return Task.FromResult<object>(null);
         }
     }
 }

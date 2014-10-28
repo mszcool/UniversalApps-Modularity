@@ -18,17 +18,15 @@ namespace Microsoft.TED.CompositeLOBDemo.RepositorySQLite
             _container = container;    
         }
 
-        public System.Threading.Tasks.Task InitializeAsync()
+        public async System.Threading.Tasks.Task InitializeAsync()
         {
-            var repo = new SQLiteFarmerRepository();
+            var repo = await SQLiteFarmerRepository.CreateRepository();
             _container.RegisterInstance
                 (
                     typeof(IFarmerRepository),
                     FarmerRepositoryConstants.FarmerRepository.ToString(),
                     repo
                 );
-
-            return Task.FromResult<object>(null);
         }
     }
 }

@@ -73,3 +73,4 @@ C:\Work\Git\github\UniversalApps-Modularity\Microsoft.TED.WinRT.Modules\obj\Debu
 C:\Work\Git\github\UniversalApps-Modularity\Microsoft.TED.WinRT.Modules\obj\Debug\qualifiers.txt
 C:\Work\Git\github\UniversalApps-Modularity\Microsoft.TED.WinRT.Modules\obj\Debug\qualifiers.txt.intermediate
 C:\Work\Git\github\UniversalApps-Modularity\Microsoft.TED.WinRT.Modules\obj\Debug\MultipleQualifiersPerDimensionFound.txt
+C:\Work\Git\github\UniversalApps-Modularity\Microsoft.TED.WinRT.Modules\obj\Debug\Microsoft.TED.WinRT.Modules.csprojResolveAssemblyReference.cache

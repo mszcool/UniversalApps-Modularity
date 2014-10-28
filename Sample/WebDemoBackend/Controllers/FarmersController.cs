@@ -56,18 +56,8 @@ namespace WebDemoBackend.Controllers
                 return farmer;
         }
 
-        // POST: api/Farmers
-        public int Post([FromBody]Farmer value)
-        {
-            lock (_myFarmers)
-            {
-                var newId = _myFarmers.Max(f => f.Id) + 1;
-                value.Id = newId;
-                _myFarmers.Add(value);
-                return newId;
-            }
-        }
-
+        // Note: For simplicity of this demo, PUT is doing insert or update. 
+        //       For production, please use PUT for update and POST for INSERT.
         public void Put(int id, [FromBody]Farmer value)
         {
             lock (_myFarmers)
@@ -83,7 +73,9 @@ namespace WebDemoBackend.Controllers
                 }
                 else
                 {
-                    throw new HttpResponseException(HttpStatusCode.NotFound);
+                    var newId = _myFarmers.Max(f => f.Id) + 1;
+                    value.Id = newId;
+                    _myFarmers.Add(value);
                 }
             }
         }

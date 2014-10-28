@@ -14,11 +14,23 @@
         <Grid.Resources>
             <localUtil:BooleanToOpacityConverter x:Key="BooleanIconOpacityConverter" />
         </Grid.Resources>
-        <GridView ItemsSource="{Binding Farmers}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button Grid.Row="0" Content="Synchronize" x:Name="Synchronize" />
+            <Button x:Name="UpdateFarmer" Content="Update Selected Farmer" />
+        </StackPanel>
+        <GridView x:Name="FarmersGridView" 
+                  Grid.Row="1" 
+                  ItemsSource="{Binding Farmers}" 
+                  SelectionMode="Single"
+                  SelectedValue="{Binding CurrentFarmer, Mode=TwoWay}">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="{ThemeResource BackButtonForegroundThemeBrush}" BorderThickness="1" CornerRadius="2">
-                        <Grid Width="250" Margin="5">
+                    <Border IsHitTestVisible="True" BorderBrush="{ThemeResource BackButtonForegroundThemeBrush}" BorderThickness="1" CornerRadius="2">
+                        <Grid Width="250" Margin="5" IsHitTestVisible="true">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />

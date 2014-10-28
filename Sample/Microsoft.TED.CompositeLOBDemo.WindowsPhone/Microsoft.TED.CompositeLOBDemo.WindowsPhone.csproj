@@ -126,6 +126,9 @@
     <Reference Include="Microsoft.Xaml.Interactivity">
       <HintPath>..\..\packages\Caliburn.Micro.2.0.1\lib\wpa81\Microsoft.Xaml.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PropertyChanged">
       <HintPath>..\..\packages\PropertyChanged.Fody.1.48.5\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
       <Private>False</Private>
@@ -134,11 +137,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\SQLitePCL.3.8.5.1\lib\wpa81\SQLitePCL.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.22\lib\wpa81\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\portable-wp8+netcore45+net45+wp81+wpa81\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.22\lib\wpa81\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Microsoft.TED.CompositeLOBDemo.Windows\My.licenseheader">
       <Link>My.licenseheader</Link>
     </None>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -215,4 +228,9 @@
     <SDKReferenceDirectoryRoot>$(SolutionDir)Binaries;$(SDKReferenceDirectoryRoot)</SDKReferenceDirectoryRoot>
   </PropertyGroup>
   <Import Project="..\..\packages\SQLitePCL.3.8.5.1\build\wpa81\SQLitePCL.targets" Condition="Exists('..\..\packages\SQLitePCL.3.8.5.1\build\wpa81\SQLitePCL.targets')" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
 </Project>
