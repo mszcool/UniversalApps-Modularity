@@ -11,17 +11,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Microsoft.TED.CompositeLOBDemo.SharedModule;
+using System;
 
 namespace Microsoft.TED.CompositeLOBDemo.Module2.ViewModels
 {
     public class CatListViewModel : Screen
     {
         private readonly ISearchImages _imageSearchAgent;
+        private readonly IAppInsightsService _appInsightsService;
+
         public ObservableCollection<Cat> Items { get; set; }
 
-        public CatListViewModel(ISearchImages imageSearchAgent)
+        public CatListViewModel(ISearchImages imageSearchAgent, IAppInsightsService appInsights)
         {
+            _appInsightsService = appInsights;
             _imageSearchAgent = imageSearchAgent;
+            
             this.Items = new ObservableCollection<Cat>();
         }
 
@@ -32,22 +37,31 @@ namespace Microsoft.TED.CompositeLOBDemo.Module2.ViewModels
 
         private void RefreshAsync()
         {
+            _appInsightsService.LogEvent("search/cat", "Searching for Cats...");
+
             Task.Run(() =>
             {
-                var images = _imageSearchAgent.SearchAsync("Cat").Result
-                    .Take(10).ToList();
-                var result = new ObservableCollection<Cat>();
-
-                for (int i = 0; i < 9; i++)
+                try
                 {
-                    result.Add(new Cat()
-                    {
-                        Name = string.Format("Cat {0}", i + 1),
-                        Picture = images[i]
-                    });
-                }
+                    var images = _imageSearchAgent.SearchAsync("Cat").Result
+                        .Take(10).ToList();
+                    var result = new ObservableCollection<Cat>();
 
-                Execute.OnUIThread(() => this.Items = result);
+                    for (int i = 0; i < 9; i++)
+                    {
+                        result.Add(new Cat()
+                        {
+                            Name = string.Format("Cat {0}", i + 1),
+                            Picture = images[i]
+                        });
+                    }
+
+                    Execute.OnUIThread(() => this.Items = result);
+                }
+                catch (Exception ex)
+                {
+                    _appInsightsService.LogError("search/error", "Unable to search cats from the Internet!", ex);
+                }
             });
         }
     }

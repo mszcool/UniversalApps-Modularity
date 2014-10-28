@@ -17,7 +17,7 @@
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>Microsoft.TED.CompositeLOBDemo.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <NuGetPackageImportStamp>4bf7cfa0</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>2030ef0e</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -150,6 +150,9 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="My.licenseheader" />
     <None Include="Microsoft.TED.CompositeLOBDemo.Windows_TemporaryKey.pfx" />
     <None Include="packages.config" />
@@ -231,6 +234,7 @@
     <Error Condition="!Exists('..\..\packages\Fody.1.26.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.1.26.0\build\Fody.targets'))" />
     <Error Condition="!Exists('..\..\packages\SQLitePCL.3.8.5.1\build\netcore451\SQLitePCL.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SQLitePCL.3.8.5.1\build\netcore451\SQLitePCL.props'))" />
     <Error Condition="!Exists('..\..\packages\SQLitePCL.3.8.5.1\build\netcore451\SQLitePCL.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SQLitePCL.3.8.5.1\build\netcore451\SQLitePCL.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.ApplicationInsights.Telemetry.WindowsStore.0.7.3.0\build\win81\Microsoft.ApplicationInsights.Telemetry.WindowsStore.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.ApplicationInsights.Telemetry.WindowsStore.0.7.3.0\build\win81\Microsoft.ApplicationInsights.Telemetry.WindowsStore.targets'))" />
   </Target>
   <PropertyGroup>
     <SDKReferenceDirectoryRoot>$(SolutionDir)Binaries;$(SDKReferenceDirectoryRoot)</SDKReferenceDirectoryRoot>
@@ -241,6 +245,7 @@
     <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <Import Project="..\..\packages\Microsoft.ApplicationInsights.Telemetry.WindowsStore.0.7.3.0\build\win81\Microsoft.ApplicationInsights.Telemetry.WindowsStore.targets" Condition="Exists('..\..\packages\Microsoft.ApplicationInsights.Telemetry.WindowsStore.0.7.3.0\build\win81\Microsoft.ApplicationInsights.Telemetry.WindowsStore.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -63,6 +63,10 @@
       <Project>{5408701e-e7ee-4c99-9d0a-7c8135d0c2e3}</Project>
       <Name>Microsoft.TED.CompositeLOBDemo.Repository.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.TED.CompositeLOBDemo.SharedModule\Microsoft.TED.CompositeLOBDemo.SharedModule.csproj">
+      <Project>{150a23ba-1593-42fe-a3a1-356c51c4580e}</Project>
+      <Name>Microsoft.TED.CompositeLOBDemo.SharedModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

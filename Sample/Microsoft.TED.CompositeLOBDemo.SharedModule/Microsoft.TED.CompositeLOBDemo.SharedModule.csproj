@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BingImageSearch.cs" />
+    <Compile Include="IAppInsightsService.cs" />
     <Compile Include="ISearchImages.cs" />
     <Compile Include="SharedModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

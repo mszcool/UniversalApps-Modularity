@@ -33,6 +33,17 @@
   <Dependencies>
     <PackageDependency Name="Microsoft.VCLibs.120.00.Debug" MinVersion="12.0.21005.1" />
   </Dependencies>
+  <Extensions>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>Microsoft.ApplicationInsights.dll</Path>
+        <ActivatableClass ActivatableClassId="Microsoft.ApplicationInsights.Telemetry.WindowsStore.ClientAnalyticsSession" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.ApplicationInsights.Telemetry.WindowsStore.ApplicationInsightsModule" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.ApplicationInsights.Telemetry.WindowsStore.Configuration" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="Microsoft.ApplicationInsights.Telemetry.WindowsStore.ClientAnalyticsChannel" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+  </Extensions>
   <build:Metadata>
     <build:Item Name="SharedGUID" Value="0ccb02aa-bc54-4365-8952-7238fd16e587" />
     <build:Item Name="CodeSharingProject" Value="248F659F-DAC5-46E8-AC09-60EC9FC95053" />

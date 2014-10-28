@@ -148,33 +148,37 @@ namespace Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsP
 
         private void InitTypeTables()
         {
-            _typeNameTable = new string[12];
+            _typeNameTable = new string[14];
             _typeNameTable[0] = "Caliburn.Micro.CaliburnApplication";
             _typeNameTable[1] = "Windows.UI.Xaml.Application";
-            _typeNameTable[2] = "Microsoft.TED.WinRT.ModularHub.ModularHub";
-            _typeNameTable[3] = "Microsoft.TED.WinRT.ModularHub.BindableHub";
-            _typeNameTable[4] = "Windows.UI.Xaml.Controls.Hub";
-            _typeNameTable[5] = "System.Collections.IEnumerable";
-            _typeNameTable[6] = "Windows.UI.Xaml.DataTemplate";
-            _typeNameTable[7] = "Windows.UI.Xaml.Controls.DataTemplateSelector";
-            _typeNameTable[8] = "String";
-            _typeNameTable[9] = "Microsoft.TED.CompositeLOBDemo.Views.MainPage";
-            _typeNameTable[10] = "Windows.UI.Xaml.Controls.Page";
-            _typeNameTable[11] = "Windows.UI.Xaml.Controls.UserControl";
+            _typeNameTable[2] = "Microsoft.ApplicationInsights.Telemetry.WindowsStore.ApplicationInsightsModule";
+            _typeNameTable[3] = "Object";
+            _typeNameTable[4] = "Microsoft.TED.WinRT.ModularHub.ModularHub";
+            _typeNameTable[5] = "Microsoft.TED.WinRT.ModularHub.BindableHub";
+            _typeNameTable[6] = "Windows.UI.Xaml.Controls.Hub";
+            _typeNameTable[7] = "System.Collections.IEnumerable";
+            _typeNameTable[8] = "Windows.UI.Xaml.DataTemplate";
+            _typeNameTable[9] = "Windows.UI.Xaml.Controls.DataTemplateSelector";
+            _typeNameTable[10] = "String";
+            _typeNameTable[11] = "Microsoft.TED.CompositeLOBDemo.Views.MainPage";
+            _typeNameTable[12] = "Windows.UI.Xaml.Controls.Page";
+            _typeNameTable[13] = "Windows.UI.Xaml.Controls.UserControl";
 
-            _typeTable = new global::System.Type[12];
+            _typeTable = new global::System.Type[14];
             _typeTable[0] = typeof(global::Caliburn.Micro.CaliburnApplication);
             _typeTable[1] = typeof(global::Windows.UI.Xaml.Application);
-            _typeTable[2] = typeof(global::Microsoft.TED.WinRT.ModularHub.ModularHub);
-            _typeTable[3] = typeof(global::Microsoft.TED.WinRT.ModularHub.BindableHub);
-            _typeTable[4] = typeof(global::Windows.UI.Xaml.Controls.Hub);
-            _typeTable[5] = typeof(global::System.Collections.IEnumerable);
-            _typeTable[6] = typeof(global::Windows.UI.Xaml.DataTemplate);
-            _typeTable[7] = typeof(global::Windows.UI.Xaml.Controls.DataTemplateSelector);
-            _typeTable[8] = typeof(global::System.String);
-            _typeTable[9] = typeof(global::Microsoft.TED.CompositeLOBDemo.Views.MainPage);
-            _typeTable[10] = typeof(global::Windows.UI.Xaml.Controls.Page);
-            _typeTable[11] = typeof(global::Windows.UI.Xaml.Controls.UserControl);
+            _typeTable[2] = typeof(global::Microsoft.ApplicationInsights.Telemetry.WindowsStore.ApplicationInsightsModule);
+            _typeTable[3] = typeof(global::System.Object);
+            _typeTable[4] = typeof(global::Microsoft.TED.WinRT.ModularHub.ModularHub);
+            _typeTable[5] = typeof(global::Microsoft.TED.WinRT.ModularHub.BindableHub);
+            _typeTable[6] = typeof(global::Windows.UI.Xaml.Controls.Hub);
+            _typeTable[7] = typeof(global::System.Collections.IEnumerable);
+            _typeTable[8] = typeof(global::Windows.UI.Xaml.DataTemplate);
+            _typeTable[9] = typeof(global::Windows.UI.Xaml.Controls.DataTemplateSelector);
+            _typeTable[10] = typeof(global::System.String);
+            _typeTable[11] = typeof(global::Microsoft.TED.CompositeLOBDemo.Views.MainPage);
+            _typeTable[12] = typeof(global::Windows.UI.Xaml.Controls.Page);
+            _typeTable[13] = typeof(global::Windows.UI.Xaml.Controls.UserControl);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -209,9 +213,10 @@ namespace Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsP
             return -1;
         }
 
-        private object Activate_2_ModularHub() { return new global::Microsoft.TED.WinRT.ModularHub.ModularHub(); }
-        private object Activate_3_BindableHub() { return new global::Microsoft.TED.WinRT.ModularHub.BindableHub(); }
-        private object Activate_9_MainPage() { return new global::Microsoft.TED.CompositeLOBDemo.Views.MainPage(); }
+        private object Activate_2_ApplicationInsightsModule() { return new global::Microsoft.ApplicationInsights.Telemetry.WindowsStore.ApplicationInsightsModule(); }
+        private object Activate_4_ModularHub() { return new global::Microsoft.TED.WinRT.ModularHub.ModularHub(); }
+        private object Activate_5_BindableHub() { return new global::Microsoft.TED.WinRT.ModularHub.BindableHub(); }
+        private object Activate_11_MainPage() { return new global::Microsoft.TED.CompositeLOBDemo.Views.MainPage(); }
 
         private global::Windows.UI.Xaml.Markup.IXamlType CreateXamlType(int typeIndex)
         {
@@ -232,15 +237,25 @@ namespace Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsP
                 xamlType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 2:   //  Microsoft.TED.WinRT.ModularHub.ModularHub
-                userType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.TED.WinRT.ModularHub.BindableHub"));
-                userType.Activator = Activate_2_ModularHub;
+            case 2:   //  Microsoft.ApplicationInsights.Telemetry.WindowsStore.ApplicationInsightsModule
+                userType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_2_ApplicationInsightsModule;
                 xamlType = userType;
                 break;
 
-            case 3:   //  Microsoft.TED.WinRT.ModularHub.BindableHub
+            case 3:   //  Object
+                xamlType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 4:   //  Microsoft.TED.WinRT.ModularHub.ModularHub
+                userType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.TED.WinRT.ModularHub.BindableHub"));
+                userType.Activator = Activate_4_ModularHub;
+                xamlType = userType;
+                break;
+
+            case 5:   //  Microsoft.TED.WinRT.ModularHub.BindableHub
                 userType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Hub"));
-                userType.Activator = Activate_3_BindableHub;
+                userType.Activator = Activate_5_BindableHub;
                 userType.AddMemberName("ItemsSource");
                 userType.AddMemberName("ItemTemplate");
                 userType.AddMemberName("ItemTemplateSelector");
@@ -249,40 +264,40 @@ namespace Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsP
                 xamlType = userType;
                 break;
 
-            case 4:   //  Windows.UI.Xaml.Controls.Hub
+            case 6:   //  Windows.UI.Xaml.Controls.Hub
                 xamlType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 5:   //  System.Collections.IEnumerable
+            case 7:   //  System.Collections.IEnumerable
                 userType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlUserType(this, typeName, type, null);
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 6:   //  Windows.UI.Xaml.DataTemplate
+            case 8:   //  Windows.UI.Xaml.DataTemplate
                 xamlType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 7:   //  Windows.UI.Xaml.Controls.DataTemplateSelector
+            case 9:   //  Windows.UI.Xaml.Controls.DataTemplateSelector
                 xamlType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 8:   //  String
+            case 10:   //  String
                 xamlType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 9:   //  Microsoft.TED.CompositeLOBDemo.Views.MainPage
+            case 11:   //  Microsoft.TED.CompositeLOBDemo.Views.MainPage
                 userType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_9_MainPage;
+                userType.Activator = Activate_11_MainPage;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 10:   //  Windows.UI.Xaml.Controls.Page
+            case 12:   //  Windows.UI.Xaml.Controls.Page
                 xamlType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 11:   //  Windows.UI.Xaml.Controls.UserControl
+            case 13:   //  Windows.UI.Xaml.Controls.UserControl
                 xamlType = new global::Microsoft.TED.CompositeLOBDemo.Microsoft_TED_CompositeLOBDemo_WindowsPhone_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
             }

@@ -71,10 +71,10 @@ namespace Microsoft.TED.CompositeLOBDemo.RepositorySQLite
 
         private static void ProvisionDatabase(SQLiteConnection sqConn = null)
         {
-            if(sqConn == null) 
+            if (sqConn == null)
                 sqConn = new SQLitePCL.SQLiteConnection(DBNAME);
 
-            var cmdCreateTable = sqConn.Prepare
+            using (var cmdCreateTable = sqConn.Prepare
                                     (
                                         "CREATE TABLE Farmer(" +
                                         "  Id INT, " +
@@ -86,34 +86,37 @@ namespace Microsoft.TED.CompositeLOBDemo.RepositorySQLite
                                         "  HasWholeGrainFields BOOLEAN, " +
                                         "  Country TEXT, " +
                                         "  NeedsSync BOOLEAN);"
-                                    );
-            var result = cmdCreateTable.Step();
-            if (result != SQLiteResult.DONE)
-                throw new Exception(string.Format("Unable to create database, error returned: {0}!", result.ToString()));
+                                    ))
+            {
+                var result = cmdCreateTable.Step();
+                if (result != SQLiteResult.DONE)
+                    throw new Exception(string.Format("Unable to create database, error returned: {0}!", result.ToString()));
+            }
         }
 
         private IList<FarmerModel> ExecuteQuery(bool needsSyncOnly = false)
         {
             var farmers = new List<FarmerModel>();
-
             var queryText = "SELECT * FROM Farmer";
             if (needsSyncOnly) queryText = string.Concat(queryText, " WHERE NeedsSync = 1");
 
-            var queryCmd = Connection.Prepare(queryText);
-            while (queryCmd.Step() == SQLiteResult.ROW)
+            using (var queryCmd = Connection.Prepare(queryText))
             {
-                var farmer = new FarmerModel()
+                while (queryCmd.Step() == SQLiteResult.ROW)
                 {
-                    Id = (int)queryCmd.GetInteger("Id"),
-                    Firstname = queryCmd.GetText("Firstname"),
-                    Lastname = queryCmd.GetText("Lastname"),
-                    Country = queryCmd.GetText("Country"),
-                    Speciality = queryCmd.GetText("Speciality"),
-                    HasAnimals = ((int)queryCmd.GetInteger("HasAnimals") == 1),
-                    HasWholeGrainFields = ((int)queryCmd.GetInteger("HasWholeGrainFields") == 1),
-                    HasWineyards = ((int)queryCmd.GetInteger("HasWineyards") == 1)
-                };
-                farmers.Add(farmer);
+                    var farmer = new FarmerModel()
+                    {
+                        Id = (int)queryCmd.GetInteger("Id"),
+                        Firstname = queryCmd.GetText("Firstname"),
+                        Lastname = queryCmd.GetText("Lastname"),
+                        Country = queryCmd.GetText("Country"),
+                        Speciality = queryCmd.GetText("Speciality"),
+                        HasAnimals = ((int)queryCmd.GetInteger("HasAnimals") == 1),
+                        HasWholeGrainFields = ((int)queryCmd.GetInteger("HasWholeGrainFields") == 1),
+                        HasWineyards = ((int)queryCmd.GetInteger("HasWineyards") == 1)
+                    };
+                    farmers.Add(farmer);
+                }
             }
 
             return farmers;
@@ -122,41 +125,45 @@ namespace Microsoft.TED.CompositeLOBDemo.RepositorySQLite
         private void PerformInsertUpdate(Repository.Interfaces.Models.FarmerModel farmerToUpdate, bool needsSync)
         {
             var updateCmdSql = string.Empty;
-            var queryFarmerCmd = Connection.Prepare("SELECT * FROM Farmer WHERE Id = @Id");
-            queryFarmerCmd.Bind("@Id", farmerToUpdate.Id);
-            if (queryFarmerCmd.Step() == SQLiteResult.ROW)
+            using (var queryFarmerCmd = Connection.Prepare("SELECT * FROM Farmer WHERE Id = @Id"))
             {
-                updateCmdSql = "UPDATE Farmer " +
-                               " SET Firstname = @Firstname, " +
-                               "     Lastname = @Lastname, " +
-                               "     Speciality = @Speciality, " +
-                               "     Country = @Country, " +
-                               "     HasAnimals = @HasAnimals, " +
-                               "     HasWineyards = @HasWineyards, " +
-                               "     HasWholeGrainFields = @HasWholeGrainFields, " +
-                               "     NeedsSync = @NeedsSync" +
-                               " WHERE Id = @Id";
-            }
-            else
-            {
-                updateCmdSql = "INSERT INTO Farmer(Id, Firstname, Lastname, Speciality, Country, HasAnimals, HasWineyards, HasWholeGrainFields, NeedsSync) " +
-                               "VALUES(@Id, @Firstname, @Lastname, @Speciality, @Country, @HasAnimals, @HasWineyards, @HasWholeGrainFields, @NeedsSync)";
+                queryFarmerCmd.Bind("@Id", farmerToUpdate.Id);
+                if (queryFarmerCmd.Step() == SQLiteResult.ROW)
+                {
+                    updateCmdSql = "UPDATE Farmer " +
+                                   " SET Firstname = @Firstname, " +
+                                   "     Lastname = @Lastname, " +
+                                   "     Speciality = @Speciality, " +
+                                   "     Country = @Country, " +
+                                   "     HasAnimals = @HasAnimals, " +
+                                   "     HasWineyards = @HasWineyards, " +
+                                   "     HasWholeGrainFields = @HasWholeGrainFields, " +
+                                   "     NeedsSync = @NeedsSync" +
+                                   " WHERE Id = @Id";
+                }
+                else
+                {
+                    updateCmdSql = "INSERT INTO Farmer(Id, Firstname, Lastname, Speciality, Country, HasAnimals, HasWineyards, HasWholeGrainFields, NeedsSync) " +
+                                   "VALUES(@Id, @Firstname, @Lastname, @Speciality, @Country, @HasAnimals, @HasWineyards, @HasWholeGrainFields, @NeedsSync)";
+                }
             }
 
-            var updateCmd = Connection.Prepare(updateCmdSql);
-            updateCmd.Bind("@Id", farmerToUpdate.Id);
-            updateCmd.Bind("@Firstname", farmerToUpdate.Firstname);
-            updateCmd.Bind("@Lastname", farmerToUpdate.Lastname);
-            updateCmd.Bind("@Speciality", farmerToUpdate.Speciality);
-            updateCmd.Bind("@Country", farmerToUpdate.Country);
-            updateCmd.Bind("@HasAnimals", farmerToUpdate.HasAnimals ? 1 : 0);
-            updateCmd.Bind("@HasWineyards", farmerToUpdate.HasWineyards ? 1 : 0);
-            updateCmd.Bind("@HasWholeGrainFields", farmerToUpdate.HasWholeGrainFields ? 1 : 0);
-            updateCmd.Bind("@NeedsSync", needsSync ? 1 : 0);
+            using (var updateCmd = Connection.Prepare(updateCmdSql))
+            {
+                updateCmd.Bind("@Id", farmerToUpdate.Id);
+                updateCmd.Bind("@Firstname", farmerToUpdate.Firstname);
+                updateCmd.Bind("@Lastname", farmerToUpdate.Lastname);
+                updateCmd.Bind("@Speciality", farmerToUpdate.Speciality);
+                updateCmd.Bind("@Country", farmerToUpdate.Country);
+                updateCmd.Bind("@HasAnimals", farmerToUpdate.HasAnimals ? 1 : 0);
+                updateCmd.Bind("@HasWineyards", farmerToUpdate.HasWineyards ? 1 : 0);
+                updateCmd.Bind("@HasWholeGrainFields", farmerToUpdate.HasWholeGrainFields ? 1 : 0);
+                updateCmd.Bind("@NeedsSync", needsSync ? 1 : 0);
 
-            var result = updateCmd.Step();
-            if (result != SQLiteResult.DONE)
-                throw new Exception(string.Format("Unable to insert/update record with the following result: {0}", result.ToString()));
+                var result = updateCmd.Step();
+                if (result != SQLiteResult.DONE)
+                    throw new Exception(string.Format("Unable to insert/update record with the following result: {0}", result.ToString()));
+            }
         }
 
         private async Task DownloadData()
@@ -170,9 +177,12 @@ namespace Microsoft.TED.CompositeLOBDemo.RepositorySQLite
             var farmers = await result.Content.ReadAsAsync<List<FarmerModel>>();
 
             // Next delete the existing table and re-created it
-            var cmdDeleteTable = Connection.Prepare("DROP TABLE Farmer");
-            if (cmdDeleteTable.Step() != SQLiteResult.DONE)
-                throw new Exception("Unable to delete existing table with existing content!");
+            using (var cmdDeleteTable = Connection.Prepare("DROP TABLE Farmer"))
+            {
+                var deleteResult = cmdDeleteTable.Step();
+                if (deleteResult != SQLiteResult.DONE)
+                    throw new Exception("Unable to delete existing table with existing content!");
+            }
             ProvisionDatabase(Connection);
 
             // Now insert all farmers downloaded into the database
@@ -202,10 +212,10 @@ namespace Microsoft.TED.CompositeLOBDemo.RepositorySQLite
                 var response = await httpClient.PutAsync<FarmerModel>
                                             (
                                                 string.Concat(WEBROOT, "api/", "Farmers/", farmerToUpload.Id),
-                                                farmerToUpload, 
+                                                farmerToUpload,
                                                 mediaTypeFormatter
                                             );
-                response.EnsureSuccessStatusCode();    
+                response.EnsureSuccessStatusCode();
             }
         }
 

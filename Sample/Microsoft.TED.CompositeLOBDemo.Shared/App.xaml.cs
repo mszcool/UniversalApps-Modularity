@@ -32,6 +32,7 @@ using Microsoft.Practices.ServiceLocation;
 using Microsoft.TED.CompositeLOBDemo.Views;
 using Microsoft.TED.WinRT.ModularHub;
 using Microsoft.TED.WinRT.Modules;
+using Microsoft.TED.CompositeLOBDemo.SharedModule;
 
 namespace Microsoft.TED.CompositeLOBDemo
 {
@@ -45,6 +46,8 @@ namespace Microsoft.TED.CompositeLOBDemo
 #endif
 
         private DefaultWinRTContainer _container;
+
+        private IAppInsightsService _insightsService;
 
         public ModuleManager ModuleManager { get; set; }
 
@@ -60,7 +63,14 @@ namespace Microsoft.TED.CompositeLOBDemo
 #if DEBUG
             LogManager.GetLog = type => new DebugLog(type);
 #endif
+
+            // Launch Application Insights encapsulation
+            _insightsService = new Insights.AppInsightsService();
+            var startUpEvent = _insightsService.LogStartEvent("appStartup", "starting up composite LoB demo app...");
+
             InitializeModules();
+
+            _insightsService.LogEndEvent(startUpEvent);
         }
 
         private void InitializeModules()
@@ -77,16 +87,18 @@ namespace Microsoft.TED.CompositeLOBDemo
 
             this.ModuleManager.AddModule(name: "FarmersUIModule",
                 entryPoint: "Microsoft.TED.CompositeLOBDemo.Module3.Module, Microsoft.TED.CompositeLOBDemo.Module3",
-                dependsOn: "FarmersRepository");
+                dependsOn: new string[] { "FarmersRepository", "SharedModule" });
 
             this.ModuleManager.AddModule(name: "SharedModule",
                 entryPoint: "Microsoft.TED.CompositeLOBDemo.SharedModule.Module,Microsoft.TED.CompositeLOBDemo.SharedModule");
 
             //this.ModuleManager.AddModule(name: "FarmersRepository",
-            //    entryPoint: "Microsoft.TED.CompositeLOBDemo.RepositoryMock.Module, Microsoft.TED.CompositeLOBDemo.RepositoryMock");
+            //    entryPoint: "Microsoft.TED.CompositeLOBDemo.RepositoryMock.Module, Microsoft.TED.CompositeLOBDemo.RepositoryMock",
+            //    dependsOn: "SharedModule");
 
             this.ModuleManager.AddModule(name: "FarmersRepository",
-                entryPoint: "Microsoft.TED.CompositeLOBDemo.RepositorySQLite.Module, Microsoft.TED.CompositeLOBDemo.RepositorySQLite");
+                entryPoint: "Microsoft.TED.CompositeLOBDemo.RepositorySQLite.Module, Microsoft.TED.CompositeLOBDemo.RepositorySQLite",
+                dependsOn: "SharedModule" );
         }
 
         protected override void Configure()
@@ -99,6 +111,9 @@ namespace Microsoft.TED.CompositeLOBDemo
             // Hub metadata service
             _container.Singleton<IHubMetadataService, HubMetadataService>();
             _container.RegisterSingleton(typeof(IHubViewModelBinder), "", typeof(CaliburnHubViewModelBinder));
+
+            // Insights service
+            _container.RegisterInstance(typeof(IAppInsightsService), "AppInsights", _insightsService);
 
             // Modules
             _container.RegisterInstance(typeof(ModuleManager), "", this.ModuleManager);

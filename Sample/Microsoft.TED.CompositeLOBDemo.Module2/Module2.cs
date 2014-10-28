@@ -16,20 +16,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.TED.CompositeLOBDemo.SharedModule;
 
 namespace Microsoft.TED.CompositeLOBDemo.Module2
 {
     public class Module : IModule
     {
         private readonly IHubMetadataService _hubMetadataService;
+        private readonly IAppInsightsService _appInsightsService;
 
-        public Module(IHubMetadataService hubMetadataService)
+        public Module(IHubMetadataService hubMetadataService, IAppInsightsService appInsightsService)
         {
             _hubMetadataService = hubMetadataService;
+            _appInsightsService = appInsightsService;
         }
 
         public async Task InitializeAsync()
         {
+            _appInsightsService.LogEvent("modules/loadModule2", "Loading module #2 into app...");
+
             _hubMetadataService.AddHubSection("M2", "Cats", typeof(CatListView).AssemblyQualifiedName);
 
             await Task.FromResult<object>(null);

@@ -5,4 +5,14 @@
     xmlns:local="using:Microsoft.TED.CompositeLOBDemo"
     xmlns:micro="using:Caliburn.Micro">
 
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <ai:ApplicationInsightsModule x:Key="ApplicationInsightsModule" xmlns:ai="using:Microsoft.ApplicationInsights.Telemetry.WindowsStore" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
 </micro:CaliburnApplication>

@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using Microsoft.TED.CompositeLOBDemo.Repository.Interfaces;
 using Microsoft.TED.CompositeLOBDemo.Repository.Interfaces.Models;
+using Microsoft.TED.CompositeLOBDemo.SharedModule;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,7 @@ namespace Microsoft.TED.CompositeLOBDemo.Module3.ViewModels
     public sealed class FarmersViewModel : Screen
     {
         private readonly IFarmerRepository _farmerRepo;
+        private readonly IAppInsightsService _appInsightsService;
 
         public int NumberOfFarmers { get; set; }
         public ObservableCollection<FarmerModel> Farmers { get; set; }
@@ -37,9 +39,10 @@ namespace Microsoft.TED.CompositeLOBDemo.Module3.ViewModels
             }
         }
 
-        public FarmersViewModel(IFarmerRepository farmerRepository)
+        public FarmersViewModel(IFarmerRepository farmerRepository, IAppInsightsService appInsights)
         {
             _farmerRepo = farmerRepository;
+            _appInsightsService = appInsights;
             CurrentFarmer = null;
         }
 
@@ -50,6 +53,8 @@ namespace Microsoft.TED.CompositeLOBDemo.Module3.ViewModels
 
         private async Task RefreshAsync()
         {
+            _appInsightsService.LogEvent("farmers/display", "Displaying farmers from local repository!");
+
             // Loading the farmers from the repository
             var farmers = await _farmerRepo.GetFarmers();
             var farmersObservable = new ObservableCollection<FarmerModel>(farmers);
@@ -68,17 +73,32 @@ namespace Microsoft.TED.CompositeLOBDemo.Module3.ViewModels
 
         public async Task Synchronize()
         {
-            // First synchronize with the backend service
-            await _farmerRepo.SyncWithBackend();
+            var syncEventInsights = _appInsightsService.LogStartEvent("farmers/sync", "Start syncing farmers to/from backend...");
 
-            // Next refresh the UI
-            await RefreshAsync();
+            try
+            {
+                // First synchronize with the backend service
+                await _farmerRepo.SyncWithBackend();
+
+                // Next refresh the UI
+                await RefreshAsync();
+            }
+            catch (Exception ex)
+            {
+                _appInsightsService.LogError("farmers/sync/error", "Unable to synchronize farmers from backend!", ex);
+            }
+            finally
+            {
+                _appInsightsService.LogEndEvent(syncEventInsights);
+            }
         }
 
         public bool CanUpdateFarmer { get; set; }
 
         public async Task UpdateFarmer()
         {
+            _appInsightsService.LogEvent("farmers/update", "Updating selected farmer in local repository!");
+
             // Update the selected farmer
             if (CurrentFarmer != null)
                 await _farmerRepo.UpdateFarmer((FarmerModel)CurrentFarmer);

@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CaliburnHubViewModelLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CaliburnServiceLocator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DefaultWinRTContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Insights\AppInsightsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

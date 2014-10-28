@@ -11,17 +11,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Microsoft.TED.CompositeLOBDemo.SharedModule;
+using System;
 
 namespace Microsoft.TED.CompositeLOBDemo.Module1.ViewModels
 {
     public class SheepListViewModel : Screen
     {
         private readonly ISearchImages _imageSearchAgent;
+        private readonly IAppInsightsService _appInsightsService;
+
         public ObservableCollection<Sheep> Items { get; set; }
 
-        public SheepListViewModel(ISearchImages imageSearchAgent)
+        public SheepListViewModel(ISearchImages imageSearchAgent, IAppInsightsService appInsights)
         {
             _imageSearchAgent = imageSearchAgent;
+            _appInsightsService = appInsights;
             this.Items = new ObservableCollection<Sheep>();
         }
 
@@ -32,22 +36,31 @@ namespace Microsoft.TED.CompositeLOBDemo.Module1.ViewModels
 
         private void RefreshAsync()
         {
+            _appInsightsService.LogEvent("search/sheep", "Searching for Sheeps...");
+
             Task.Run(() =>
             {
-                var images = _imageSearchAgent.SearchAsync("Sheep").Result
-                    .Take(10).ToList();
-                var result = new ObservableCollection<Sheep>();
-
-                for (int i = 0; i < 9; i++)
+                try
                 {
-                    result.Add(new Sheep()
-                    {
-                        Name = string.Format("Sheep {0}", (i + 1)),
-                        Picture = images[i]
-                    });
-                }
+                    var images = _imageSearchAgent.SearchAsync("Sheep").Result
+                        .Take(10).ToList();
+                    var result = new ObservableCollection<Sheep>();
 
-                Execute.OnUIThread(() => this.Items = result);
+                    for (int i = 0; i < 9; i++)
+                    {
+                        result.Add(new Sheep()
+                        {
+                            Name = string.Format("Sheep {0}", (i + 1)),
+                            Picture = images[i]
+                        });
+                    }
+
+                    Execute.OnUIThread(() => this.Items = result);
+                }
+                catch (Exception ex)
+                {
+                    _appInsightsService.LogError("search/error", "Unable to search sheeps from Internet", ex);
+                }
             });
         }
     }
