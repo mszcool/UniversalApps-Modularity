@@ -1,2 +1,2 @@
-C:\Work\Git\github\UniversalApps-Modularity\Microsoft.TED.WinRT.Modules.Tests\Microsoft.TED.WinRT.Modules.Tests.csproj;x86
-C:\Work\Git\github\UniversalApps-Modularity\Microsoft.TED.WinRT.Modules\Microsoft.TED.WinRT.Modules.csproj;neutral
+C:\Work\Code\Git\github\UniversalApps-Modularity\Microsoft.TED.WinRT.Modules.Tests\Microsoft.TED.WinRT.Modules.Tests.csproj;x86
+C:\Work\Code\Git\github\UniversalApps-Modularity\Microsoft.TED.WinRT.Modules\Microsoft.TED.WinRT.Modules.csproj;neutral

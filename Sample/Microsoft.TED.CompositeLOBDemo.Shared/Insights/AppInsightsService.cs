@@ -1,4 +1,12 @@
-﻿using Microsoft.ApplicationInsights.Telemetry.WindowsStore;
+﻿﻿//	Copyright (c) Max Knor, Microsoft
+//	All rights reserved. 
+//	http://blog.knor.net/
+//
+//	Licensed under the Apache License, Version 2.0 (the ""License""); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+//	THIS CODE IS PROVIDED *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABLITY OR NON-INFRINGEMENT. 
+//
+//	See the Apache Version 2.0 License for specific language governing permissions and limitations under the License.
+using Microsoft.ApplicationInsights.Telemetry.WindowsStore;
 using Microsoft.TED.CompositeLOBDemo.SharedModule;
 using System;
 using System.Collections.Generic;
@@ -16,6 +24,7 @@ namespace Microsoft.TED.CompositeLOBDemo.Insights
             // Add 'using Microsoft.ApplicationInsights.Telemetry.WindowsStore;' to all the pages where you want to use Application Insights APIs.
             // ClientAnalyticsSession.Default.Start("3f8e3799-5d80-4093-b3eb-14cc8c28766a");
 
+            // TODO: add your app insights instrumentation key here:
             ClientAnalyticsSession.Default.Start("3f8e3799-5d80-4093-b3eb-14cc8c28766a");
             if (!ClientAnalyticsSession.Default.Enabled)
                 Debug.WriteLine("App Insights not enabled!!");

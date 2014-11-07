@@ -98,7 +98,7 @@ namespace Microsoft.TED.CompositeLOBDemo
 
             //this.ModuleManager.AddModule(name: "FarmersRepository",
             //    entryPoint: "Microsoft.TED.CompositeLOBDemo.RepositorySQLite.Module, Microsoft.TED.CompositeLOBDemo.RepositorySQLite",
-            //    dependsOn: "SharedModule" );
+            //    dependsOn: "SharedModule");
         }
 
         protected override void Configure()
